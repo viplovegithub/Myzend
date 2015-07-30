@@ -52,6 +52,7 @@ public function getEntityManager() {
         //$this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
     }
     return $this->em;
+     //return $this->em;
     
 }
  
