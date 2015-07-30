@@ -1,0 +1,118 @@
+<?php
+$title = 'Add TARRIFF';
+$this->headTitle($title);
+?>
+
+   <div class="contentPanel">
+    <div class="row ">
+    <div class="col-sm-6 pull-left">
+                <header>
+                <h3 class="orange">ADD TOLL</h3>
+                </header>
+   </div>
+   <div class="col-sm-6 pull-right"> 
+   </div>
+                
+    </div>
+<div class="addUserTitleStrip">
+    <h4>TARRIFF INFORMATION</h4>
+    </div>    
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+   
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<?php
+$form = $this->form;
+$form->prepare();
+echo $this->form()->openTag($form) ;
+?>
+<div class="commonFormDtlsDiv">
+    <?php echo $this->formText($form->get('tariffName')); ?> 
+    <?php echo $this->formElementErrors($form->get('tariffName')); ?>
+</div>
+   <div class="row-fluid">
+            <?php if(!empty($this->scc)): ?>
+                <div class="span10">
+                    <ul>
+                    <?php foreach ($this->scc as $v): ?>
+                        <li><?php echo $v; ?></li>
+                    <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+            <?php if(!empty($this->err)): ?>
+                <div class="span10">
+                    <ul>
+                    <?php foreach ($this->err as $v): ?>
+                        <li><?php echo $v; ?></li>
+                    <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+    </div> 
+       <div class="commonFormDtlsDiv">
+    <?php echo $this->formText($form->get('tariffSubName')); ?> 
+    <?php echo $this->formElementErrors($form->get('tariffSubName')); ?>
+</div>
+ 
+<div>
+    <?php echo $this->formInput($form->get('submit')) ; ?>
+</div>
+
+<?php echo $this->form()->closeTag($form) ;?>
+</div>
+
+
+ <script type="text/javascript">
+
+ $(document).ready(function() {      
+ var tlist= new Array();
+ var tsllist= new Array();
+ 
+    $.ajax({
+          type:"POST",
+             url:"/admin/tarriff/gettarrifflist",
+        
+          success: function(data){
+                              
+var arr = jQuery.parseJSON(data);
+   //vcarr.push('Add New Category ');
+ $.each( arr, function(i, obj) {
+            
+         if(obj.tariffName!=undefined)
+       {
+          
+          tlist.push( obj.tariffName )
+      }
+           if(obj.tariffSubName!=undefined)
+       {
+         tsllist.push( obj.tariffSubName )
+      }
+      
+});
+
+                         },
+            failure: (
+                    function()
+            {
+                alert("Failure!!");
+            }
+                    )
+
+
+           });
+      $("#tariffName").autocomplete({source: tlist });
+    $("#tariffSubName").autocomplete({source: tsllist});  
+    
+ //$('#ui-id-1').prepend('<li id="ui-id-x" class="ui-menu-item"> See All Result</li>');
+   });
+
+</script>
+<STYLE TYPE="text/css" media="all">
+        .ui-autocomplete { 
+            position: absolute; 
+            cursor: default; 
+          //  height: 150px; 
+            overflow-y: scroll; 
+            overflow-x: hidden;
+        }
+    </STYLE>

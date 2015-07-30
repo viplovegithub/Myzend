@@ -1,0 +1,174 @@
+<?php
+$this->headTitle('ADD NEW LOCATION');
+?>
+<div class="contentPanel">
+    <div class="row ">
+    <div class="col-sm-6 pull-left">
+                <header>
+                <h3 class="orange">ADD NEW LOCATION</h3>
+                </header>
+   </div>
+   <div class="col-sm-6 pull-right"> 
+   </div>
+                
+    </div>
+<div class="addUserTitleStrip">
+    <h4>LOCATION INFORMATION</h4>
+  
+    </div>
+ <?php
+                $form = $this->form;
+                $form->prepare();
+                echo $this->form()->openTag($form);
+ ?>
+    
+    <div class="commonFormDtlsDiv">
+            <?php echo $this->formRow($form->get('locname'));?>
+        </div>
+    
+    <div class="commonFormDtlsDiv">
+    <div class="commonDropDnInput">
+<?php echo $this->formSelect($form->get('stid')) ;?>
+    </div></div>
+    <div class="commonFormDtlsDiv">
+     <?php echo $this->formElementErrors($form->get('stid')); ?>
+
+    </div>
+    <div class="commonFormDtlsDiv">
+    <div class="commonDropDnInput">
+       <?php echo $this->formSelect($form->get('ctid')) ;?>
+      <?php echo $this->formRow($form->get('citytemp'));?>
+    </div></div>
+    <div class="commonFormDtlsDiv">
+     <?php echo $this->formElementErrors($form->get('ctid')); ?>
+
+    </div>
+    
+      <div class="commonFormDtlsDiv">
+    <div class="commonDropDnInput">
+<?php echo $this->formSelect($form->get('loctypeid')) ;?>
+    </div></div>
+    <div class="commonFormDtlsDiv">
+     <?php echo $this->formElementErrors($form->get('loctypeid')); ?>
+
+    </div>
+    
+    <div class="commonFormDtlsDiv">
+            <?php echo $this->formRow($form->get('bestSeasonToVisit'));?>
+        </div>
+     <div class="commonFormDtlsDiv">
+    <div class="commonDropDnInput">
+<?php echo $this->formSelect($form->get('entry')) ;?>
+    </div></div>
+    <div class="commonFormDtlsDiv">
+     <?php echo $this->formElementErrors($form->get('entry')); ?>
+
+    </div>
+   <div class="commonFormDtlsDiv">
+            <?php echo $this->formRow($form->get('timingOpeningNClosing'));?>
+        </div>
+     <div class="commonFormDtlsDiv">
+            <?php echo $this->formRow($form->get('description'));?>
+        </div>
+    
+     <div class="commonFormDtlsDiv">
+     <?php echo $this->formRow($form->get('specialInstructions'));?>
+        </div>
+    <div class="commonFormDtlsDiv">
+            <?php echo $this->formRow($form->get('notAllowed'));?>
+        </div>
+       <div class="commonFormDtlsDiv">
+    <div class="commonDropDnInput">
+<?php echo $this->formSelect($form->get('airportRailwayStatus')) ;?>
+    </div></div>
+    <div class="commonFormDtlsDiv">
+     <?php echo $this->formElementErrors($form->get('airportRailwayStatus')); ?>
+
+    </div>
+    <div class="commonFormDtlsDiv">
+            <?php echo $this->formRow($form->get('latitude'));?>
+        </div>
+    <div class="commonFormDtlsDiv">
+            <?php echo $this->formRow($form->get('longitude'));?>
+        </div>  
+    
+    <div class="commonFormDtlsDiv">
+            <?php echo $this->formRow($form->get('locationPhoto'));?>
+        </div>  
+     <input type="hidden" id="tempstateId" name="tempstateId" value="<?php echo $form->get('stid')->getValue(); ?>">
+           <input type="hidden" id="tempcityid" name="tempcityid" value="<?php echo $form->get('ctid')->getValue(); ?>">
+    
+     <div class="btnCommonDiv">
+<?php echo $this->formInput($form->get('save'));?>
+           
+</div>
+        
+<?php
+echo $this->form()->closeTag($form);
+?>
+ 
+  </div>
+
+<script>
+  $( document ).ready(function() {
+    var getstate=$("#tempstateId").val();
+         var getctid=$("#tempcityid").val();
+         var myData1 = {cid:getstate};
+            var str;
+         $.ajax({
+            type:"POST",
+            url:"/admin/geography/getcity",
+            data:myData1,
+            dataType: "JSON",
+          success: function(data){
+             var htmlStr;
+              $('#city').empty();  
+              $('#city').append($('<option></option>').attr('value',  '').text('pls select city'));
+              $.each(data, function(k, v){
+                  if(v.cityId==getctid){
+                        $('#city').append($('<option></option>').attr({'value': v.cityId, "selected": "selected"}).text(v.ctname));
+                    
+                  }else{
+                         $('#city').append($('<option></option>').attr({'value': v.cityId}).text(v.ctname));
+                  }
+              
+              });
+        },
+            failure: (
+               function()
+                        {
+                          alert("Failure!!");
+                       }
+              )
+
+         });
+         
+         
+  });
+  $("#state").change(function () {       
+    var getValue=$("#state").val();
+   var myData = {cid:getValue};
+    $.ajax({
+           type:"POST",
+           url:"/admin/geography/getcity",
+            data:myData,
+            dataType: "JSON",
+          success: function(data){
+             var htmlStr;
+             
+              $('#city').empty();  
+              $('#city').append($('<option></option>').attr('value','').text('pls select City'));
+              $.each(data, function(k, v){
+                $('#city').append($('<option></option>').attr('value',  v.cityId).text(v.ctname));
+              });
+        },
+            failure: (
+               function()
+                        {
+                          alert("Failure!!");
+                       }
+              )
+
+         });
+  });
+    </script>

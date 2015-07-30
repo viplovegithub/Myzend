@@ -1,0 +1,43 @@
+<?php
+$title = 'Vehicle';
+$this->headTitle($title);
+?>
+
+
+<div class="contentPanel">
+    <div class="zf-table-wrap  form-inline">
+
+        <div class="row ">
+            <div class="col-sm-6 pull-left">
+                <header>
+                    <h3 class="orange">MANAGE VEHICLES</h3>
+                </header>
+            </div>
+            <div class="col-sm-6 pull-right"> 
+                <div class="addUserBtn"><a href="<?php echo $this->url('vehicle', array(
+    'action' => 'add'));
+?>">Add Vehicle</a></div>
+            </div>
+
+        </div>
+        <div class="addUserTitleStrip">
+            <h4>VEHICLE LIST</h4>
+        </div>
+
+
+    </div>
+    <div id="tableContainer">
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+<script>
+    $("#tableContainer").zfTable('/cabsaas/ZendSkeletonApplication/public/vehicle/ajax-index');
+</script>

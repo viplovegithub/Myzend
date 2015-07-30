@@ -1,0 +1,215 @@
+<?php
+
+$title = 'Add New Vehicle';
+$this->headTitle($title);
+?>
+<div class="contentPanel">
+    <div class="row ">
+    <div class="col-sm-6 pull-left">
+                <header>
+                <h3 class="orange">ADD NEW VEHICLE</h3>
+                </header>
+   </div>
+   <div class="col-sm-6 pull-right"> 
+   </div>
+                
+    </div>
+<div class="addUserTitleStrip">
+    <h4>BASIC INFORMATION</h4>
+    </div>
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+   
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url('admin', array('action' => 'add')));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+echo $this->formHidden($form->get('vehicleId'));
+?>
+
+ 
+        <div class="commonFormDtlsDiv">
+
+<?php echo $this->formRow($form->get('vehicleCategory'));?>
+        </div>
+        
+   
+ 
+        <div class="commonFormDtlsDiv">
+
+<?php echo $this->formRow($form->get('vehicleType'));?>
+        </div>
+        
+    
+        <div class="commonFormDtlsDiv">
+
+<?php echo $this->formRow($form->get('vehicleBrand'));?>
+        </div>
+        
+    
+        <div class="commonFormDtlsDiv">
+
+<?php echo $this->formRow($form->get('vehicleModel'));?>
+        </div>
+        
+    
+        <div class="commonFormDtlsDiv">
+
+<?php echo $this->formRow($form->get('vehicleModelVersion'));?>
+        </div>
+        
+   <div class="commonFormDtlsDiv">
+
+<?php echo $this->formRow($form->get('vehicleColor'));?>
+        </div>
+ 
+ 
+        <div class="commonFormDtlsDiv">
+
+<?php echo $this->formRow($form->get('vehicleName'));?>
+        </div>
+      <div class="row-fluid">
+            <?php if(!empty($this->scc)): ?>
+                <div class="span10">
+                    <ul>
+                    <?php foreach ($this->scc as $v): ?>
+                        <li><?php echo $v; ?></li>
+                    <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+            <?php if(!empty($this->err)): ?>
+                <div class="span10">
+                    <ul>
+                    <?php foreach ($this->err as $v): ?>
+                        <li><?php echo $v; ?></li>
+                    <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+    </div>   
+        <div class="commonFormDtlsDiv">
+            <div class="commonDropDnInput">
+<?php echo $this->formRow($form->get('status'));?>
+            </div>
+        </div>
+         <div class="btnCommonDiv">
+<?php echo $this->formInput($form->get('submit'));?>
+</div>
+        
+<?php
+echo $this->form()->closeTag($form);
+?>
+
+</div>
+ 
+   
+  
+ <script type="text/javascript">
+
+ $(document).ready(function() { 
+     
+ var vcarr= new Array();
+ var vtarr= new Array();
+ var vbarr= new Array();
+ var vmarr= new Array();
+ var vmvarr= new Array();
+ var vcoarr= new Array();
+    $.ajax({
+          type:"POST",
+             url:"/admin/vehicle/getautodata",
+        
+          success: function(data){
+                              
+var arr = jQuery.parseJSON(data);
+   //vcarr.push('Add New Category ');
+ $.each( arr, function(i, obj) {
+            
+         if(obj.vehicleCategory!=undefined)
+       {
+          
+          vcarr.push( obj.vehicleCategory )
+      }
+           if(obj.vehicleTypeName!=undefined)
+       {
+         vtarr.push( obj.vehicleTypeName )
+      }
+       if(obj.vehicleBrandName!=undefined)
+       {
+         vbarr.push( obj.vehicleBrandName )
+      }
+           if(obj.vehicleModelName!=undefined)
+       {
+         vmarr.push( obj.vehicleModelName )
+      }
+       if(obj.colorName!=undefined)
+       {
+          vcoarr.push( obj.colorName )
+      }
+           if(obj.vehicleModelVersionName!=undefined)
+       {
+         vmvarr.push( obj.vehicleModelVersionName )
+      }
+});
+
+                                    },
+            failure: (
+                    function()
+            {
+                alert("Failure!!");
+            }
+                    )
+
+
+           });
+      $("#vehicleCategorys").autocomplete({source: vcarr });
+    $("#vehicleTypes").autocomplete({source: vtarr});  
+     $("#vehicleBrands").autocomplete({source: vbarr});
+    $("#vehicleModels").autocomplete({source: vmarr});  
+     $("#vehicleModelVersions").autocomplete({source: vmvarr});
+    $("#vehicleColors").autocomplete({source: vcoarr});  
+  
+ //$('#ui-id-1').prepend('<li id="ui-id-x" class="ui-menu-item"> See All Result</li>');
+   });
+
+</script>
+<STYLE TYPE="text/css" media="all">
+        .ui-autocomplete { 
+            position: absolute; 
+            cursor: default; 
+          //  height: 150px; 
+            overflow-y: scroll; 
+            overflow-x: hidden;
+        }
+    </STYLE>
+    <script>
+//        $("#vehicleCategorys").autocomplete({
+//           source: vcarr,
+//            minLength: 0,       
+//        autoFocus: true,
+//        scroll: true,
+//        
+//    }).focus(function() {
+//        
+//        $(this).autocomplete("search", "");
+//     // $('#ui-id-1 li:eq(0)').before("<li>Add New Category</li>");
+//         $('.ui-autocomplete').prepend('<li id="ui-id-x" class="ui-menu-item"> See All Result </li>');
+//         // $('#ui-id-1 li:eq(0)').before("<li>Add New Category</li>");
+//    }) .onblur(function(){
+//     $('.ui-autocomplete').prepend('<li id="ui-id-x" class="ui-menu-item"> See All Result</li>');
+//   //  $('#ui-id-1 li:eq(0)').before("<li>Add New Category</li>");
+//}) 
+//    
+//        ;
+//    $("#vehicleTypes").autocomplete({source: vtarr});  
+//     $("#vehicleBrands").autocomplete({source: vbarr});
+//    $("#vehicleModels").autocomplete({source: vmarr});  
+//     $("#vehicleModelVersions").autocomplete({source: vmvarr});
+//    $("#vehicleColors").autocomplete({source: vcoarr});  
+//  
+// $('#ui-id-1').prepend('<li id="ui-id-x" class="ui-menu-item"> See All Result</li>');
+//   });
+        </script>

@@ -1,0 +1,27 @@
+<div class="form-signin">
+    
+<?php
+$title = 'Delete Toll';
+$this->headTitle($title);
+?>
+    <div class="row ">
+        <div class="col-sm-6 pull-left" style="padding: 0">
+            <header>
+                <h3 class="orange"><?php echo $this->escapeHtml($title); ?></h3>
+            </header>
+        </div>
+    </div>    
+    
+<p>Are you sure that you want to delete 
+<div class="inputLableDiv"> '<?php echo $this->escapeHtml($tariff->tollName); ?>' </div>
+</p>
+<?php 
+$url = $this->url('tariff/default', array('controller' => 'toll', 'action' => 'delete', 'id'=>$this->id)); ?>
+<form action="<?php echo $url; ?>" method="post">
+<div class="inputLableDiv">
+  <input type="hidden" name="id" value="<?php echo (int)$tariff->tollId; ?>" />
+  <input type="submit" class="btn-green" name="del" value="Yes" />
+  <input type="submit" class="btn-orange" name="del" value="No" />
+</div>
+</form>
+</div>

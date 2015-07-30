@@ -1,0 +1,84 @@
+<?php
+$this->headTitle('City');
+?>
+<div class="contentPanel">
+    <div class="row ">
+    <div class="col-sm-6 pull-left">
+                <header>
+                <h3 class="orange">ADD NEW CITY</h3>
+                </header>
+   </div>
+   <div class="col-sm-6 pull-right"> 
+   </div>
+                
+    </div>
+<div class="addUserTitleStrip">
+    <h4>CITY INFORMATION</h4>
+  
+    </div>
+ <?php
+                $form = $this->form;
+                $form->prepare();
+                echo $this->form()->openTag($form);
+ ?>
+    <div class="commonFormDtlsDiv">
+    <div class="commonDropDnInput">
+<?php echo $this->formSelect($form->get('stid')) ;?>
+    </div></div>
+    <div class="commonFormDtlsDiv">
+     <?php echo $this->formElementErrors($form->get('stid')); ?>
+
+    </div>
+    <div class="commonFormDtlsDiv">
+    <div class="commonDropDnInput">
+<?php echo $this->formSelect($form->get('ctcatid')) ;?>
+    </div></div>
+    <div class="commonFormDtlsDiv">
+     <?php echo $this->formElementErrors($form->get('ctcatid')); ?>
+
+    </div>
+    
+    <div class="commonFormDtlsDiv">
+            <?php echo $this->formRow($form->get('ctname'));?>
+        </div>
+    <div class="commonFormDtlsDiv">
+            <?php echo $this->formRow($form->get('ctdescription'));?>
+        </div>
+    
+     <div class="commonFormDtlsDiv">
+            <?php echo $this->formRow($form->get('ctspecialInstructions'));?>
+        </div>
+    
+     <div class="commonFormDtlsDiv">
+     <?php echo $this->formRow($form->get('ctbestSeasonToVisit'));?>
+        </div>
+    
+   
+    
+    <div class="commonFormDtlsDiv">
+
+<?php echo $this->formRow($form->get('ctlatitude'));?>
+        </div>
+    
+    <div class="commonFormDtlsDiv">
+
+<?php echo $this->formRow($form->get('ctlongitude'));?>
+        </div>
+    
+  
+     <div class="commonFormDtlsDiv">
+
+<?php echo $this->formRow($form->get('cityPhoto'));?>
+        </div>  
+    
+    
+     <div class="btnCommonDiv">
+<?php echo $this->formInput($form->get('save'));?>
+</div>
+        
+<?php
+echo $this->form()->closeTag($form);
+?>
+ 
+  </div>
+

@@ -1,0 +1,33 @@
+<?php
+$this->headTitle('ADD NEW DEPARTMENT');
+?>
+<div class="contentPanel">
+    <div class="row ">
+    <div class="col-sm-6 pull-left">
+                <header>
+                <h3 class="orange">ADD NEW DEPARTMENT</h3>
+                </header>
+   </div>
+   <div class="col-sm-6 pull-right"> 
+   </div>
+                
+    </div>
+<div class="addUserTitleStrip">
+    <h4>DEPARTMENT INFORMATION</h4>
+   </div>
+ <?php
+                $form = $this->form;
+                $form->prepare();
+                echo $this->form()->openTag($form);
+ ?>
+    <div class="commonFormDtlsDiv">
+        <?php echo $this->formRow($form->get('departmentName'));?>
+  </div>
+<div class="btnCommonDiv">
+        <?php echo $this->formInput($form->get('save'));?>
+</div>
+<?php
+echo $this->form()->closeTag($form);
+?>
+</div>
+

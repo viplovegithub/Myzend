@@ -1,0 +1,61 @@
+<?php
+$this->headTitle('ADD BANK DETAILS');
+?>
+<div class="contentPanel">
+    <div class="row ">
+    <div class="col-sm-6 pull-left">
+                <header>
+                <h3 class="orange">ADD BANK DETAILS</h3>
+                </header>
+   </div>
+   <div class="col-sm-6 pull-right"> 
+   </div>
+                
+    </div>
+<div class="addUserTitleStrip">
+    <h4>USER INFORMATION</h4>
+   </div>
+ <?php
+                $form = $this->form;
+                $form->prepare();
+                echo $this->form()->openTag($form);
+ ?>
+    <div class="commonFormDtlsDiv">
+    <div class="commonDropDnInput">
+<?php echo $this->formSelect($form->get('cityId')) ;?>
+    </div></div>
+    <div class="commonFormDtlsDiv">
+     <?php echo $this->formElementErrors($form->get('cityId')); ?>
+
+    </div>
+   
+    
+     <div class="commonFormDtlsDiv" id="designationLabel">
+    <div class="commonDropDnInput">
+<?php echo $this->formSelect($form->get('bankName')) ;?>
+    </div>
+ </div>
+    <div class="commonFormDtlsDiv" id="designationControl">
+     <?php echo $this->formElementErrors($form->get('bankName')); ?>
+
+    </div>
+  
+    <div class="commonFormDtlsDiv">
+
+<?php echo $this->formRow($form->get('branchName'));?>
+        </div>
+    
+    <div class="commonFormDtlsDiv">
+
+<?php echo $this->formRow($form->get('ifscCode'));?>
+        </div>
+  
+     <div class="btnCommonDiv">
+<?php echo $this->formInput($form->get('save'));?>
+</div>
+        
+<?php
+echo $this->form()->closeTag($form);
+?>
+</div>
+

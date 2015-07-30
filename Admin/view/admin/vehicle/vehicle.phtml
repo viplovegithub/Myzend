@@ -1,0 +1,94 @@
+<?php 
+$title = 'Vehicle';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?> <br></h1>
+<p><a href="<?php echo $this->url('vehicle', array( 
+        'action'=>'add'));?>">Add New Vehicle
+    </a></p>
+
+
+
+<?php 
+
+
+
+foreach($vehicles as $vehicle) : 
+    
+    $vehicleId=$vehicle['vehicleId'];
+    $vehicleName=$vehicle['vehicleName'];
+    $vehiclePhoto=$vehicle['vehiclePhoto'];
+    $vehicleBrand=$vehicle['vehicleBrandName'];
+    $vehicleModel=$vehicle['vehicleModelName'];
+    $vehicleModelVersion=$vehicle['vehicleModelVersionName'];
+    $vehicleTypeName=$vehicle['vehicleTypeName'];
+    $vehicleCategoryName=$vehicle['vehicleCategoryName'];
+    $vehicleSeatingCapacity=$vehicle['vehicleSeatingCapacity'];
+    $vehicleLuggageCapacity=$vehicle['vehicleLuggageCapacity'];
+    $vehicleDescription=$vehicle['vehicleDescription'];
+    $status=($vehicle['status']==1)?"DeActivate":"Activate";
+    $uId=$vehicle['uId'];
+
+    
+    ?>
+
+     <?php echo $this->escapeHtml($vehicleId); ?> <br>
+
+      <img src=<?php echo '/cabsaas/ZendSkeletonApplication/data/VehicleImg/'.$vehiclePhoto; ?> width="50" >  <br>
+
+     <?php echo $this->escapeHtml($vehicleName); ?> <br>
+
+    <?php  echo $this->escapeHtml($vehicleModel); ?> <br> 
+    
+    <?Php  echo $this->escapeHtml($vehicleBrand); ?> <br>  
+    <?Php  echo $this->escapeHtml($vehicleModelVersion); ?> <br>  
+    <?Php  echo $this->escapeHtml($vehicleTypeName); ?> <br>  
+    <?Php  echo $this->escapeHtml($vehicleCategoryName); ?> <br>  
+    <?Php  echo $this->escapeHtml($vehicleSeatingCapacity); ?> <br>  
+    <?Php  echo $this->escapeHtml($vehicleLuggageCapacity); ?> <br>  
+    <?Php  echo $this->escapeHtml($vehicleDescription); ?> <br>  
+   
+    <!-- <?Php  echo $this->escapeHtml($status); ?> <br>   -->
+    
+    
+    
+        <a href="<?php echo $this->url('vehicle',
+            array('action'=>'edit', 'id' => $vehicleId)); ?> <br>"> Edit</a> / 
+        
+        <a href="javascript:void(0)" id='<?php echo $vehicleId; ?> <br>' class="status" ><?php echo $status; ?> <br></a>
+     
+    
+    
+
+<?php endforeach; ?> <br>
+
+</table>
+</table>
+
+    <script>
+        $(".status").click(function (){
+            var yes=confirm('Are you sure that you want to change status of this Item?');
+           
+            if(yes)
+            {
+                var getValue = this.id;
+                var myData = {textData:getValue};
+             $.ajax({
+                type:"POST",
+                url:"/docVehicle/public/vehicle/status", // call to Action method in COntroller
+                data:myData,
+                dataType: "JSON",
+
+                success: function(data){
+                   
+                    location.reload();
+
+                },
+               failure: (function(){
+                   alert("Failure!!");
+                  })
+             });
+         }
+
+        });
+    </script> 

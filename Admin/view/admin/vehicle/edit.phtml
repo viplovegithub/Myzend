@@ -1,0 +1,244 @@
+<?php
+
+$title = 'Edit Vehicle';
+$this->headTitle($title);
+?>
+<div class="contentPanel">
+ <div class="row ">
+    <div class="col-sm-6 pull-left">
+                <header>
+                <h3 class="orange">EDIT VEHICLE DETAILS</h3>
+                </header>
+   </div>
+   <div class="col-sm-6 pull-right"> 
+   </div>
+                
+    </div>
+<div class="addUserTitleStrip">
+    <h4>BASIC INFORMATION</h4>
+    </div>
+
+<?php
+$form = $this->form;
+$form->setAttribute('action', 
+    $this->url('vehicle', 
+            array(
+                'action' => 'edit', 
+                'id'=>$this->id,
+                ))
+        );
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>
+
+<input type="hidden" name='vehicleModelIdTemp' id="vehicleModelIdTemp" value="<?php echo $form->get('vehicleModel')->getValue(); ?>" >
+<input type="hidden" name='vehicleModelVersionIdTemp' id="vehicleModelVersionIdTemp" value="<?php echo $form->get('vehicleModelVersion')->getValue(); ?>" >
+
+<?php
+echo $this->formHidden($form->get('vehicleId')) 
+        ?>
+<div class="commonFormDtlsDiv">
+    <div class="commonDropDnInput">
+<?php echo $this->formSelect($form->get('vehicleCategory')) ;?>
+    </div></div>
+    <div class="commonFormDtlsDiv">
+     <?php echo $this->formElementErrors($form->get('vehicleCategory')); ?>
+
+    </div>
+    <div class="commonFormDtlsDiv">
+    <div class="commonDropDnInput">
+<?php echo $this->formSelect($form->get('vehicleType'));?>
+        </div></div>
+     <div class="commonFormDtlsDiv">
+     <?php echo $this->formElementErrors($form->get('vehicleType')); ?>
+
+    </div>
+        <div class="commonFormDtlsDiv">
+    <div class="commonDropDnInput">
+<?php echo $this->formSelect($form->get('vehicleBrand'));?>
+        </div></div>
+    <div class="commonFormDtlsDiv">
+     <?php echo $this->formElementErrors($form->get('vehicleBrand')); ?>
+
+    </div>
+        <div class="commonFormDtlsDiv">
+    <div class="commonDropDnInput">
+<?php echo $this->formSelect($form->get('vehicleModel'));?>
+        </div></div>
+        <div class="commonFormDtlsDiv">
+     <?php echo $this->formElementErrors($form->get('vehicleBrand')); ?>
+
+    </div>
+<?php echo $this->formRow($form->get('vehicleModelIdTemp'));?>
+       
+        <div class="commonFormDtlsDiv">
+    <div class="commonDropDnInput">
+<?php echo $this->formSelect($form->get('vehicleModelVersion'));?>
+        </div></div>
+         <div class="commonFormDtlsDiv">
+     <?php echo $this->formElementErrors($form->get('vehicleModelVersion')); ?>
+
+    </div>
+<?php echo $this->formRow($form->get('vehicleModelVersionIdTemp'));?>
+       
+        <div class="commonFormDtlsDiv">
+
+<?php echo $this->formRow($form->get('vehicleName'));?>
+        </div>
+        <div class="commonFormDtlsDiv">
+<?php echo $this->formRow($form->get('vehiclePhoto'));?>
+        </div>
+        <div class="commonFormDtlsDiv">
+<?php echo $this->formRow($form->get('vehicleSeatingCapacity'));?>
+        </div>
+        <div class="commonFormDtlsDiv">
+<?php echo $this->formRow($form->get('vehicleLuggageCapacity'));?>
+        </div>
+        <div class="commonFormDtlsDiv">
+<?php echo $this->formRow($form->get('vehicleDescription'));?>
+        </div>
+        <div class="commonFormDtlsDiv">
+            <div class="commonDropDnInput">
+<?php echo $this->formRow($form->get('status'));?>
+            </div>
+        </div>
+         <div class="btnCommonDiv">
+<?php echo $this->formInput($form->get('submit'));?>
+</div>
+        
+<?php
+echo $this->form()->closeTag($form);
+?>
+
+<script>
+     $(document).ready(function (){
+        var getValue=$('#vehicleBrand').val();
+        var getValue1=$('#vehicleModelIdTemp').val();
+        var getValueMV=$('#vehicleModelVersionIdTemp').val();
+        var myData = {textData:getValue};
+        var myDataMV = {textData:getValue1};
+       
+        $.ajax({
+            type:"POST",
+            url:"/docVehicle/public/vehicle/getmodel", // call to Action method in COntroller
+            data:myData,
+            dataType: "JSON",
+          
+            success: function(data){  
+               // var htmlStr;           
+              $('#vehicleModel').empty();  
+              $('#vehicleModel').append($('<option></option>').attr('value','').text('Select Model'));
+              $.each(data, function(k, v){
+                    var element = $('<option></option>');
+                    element.val( v.vehicleModelId).html(v.vehicleModelName);
+                    element.attr("BrandId", v.vehicleBrandId);
+                    
+                    $('#vehicleModel').append(element);    
+                    $('#vehicleModel').val(getValue1);
+                     
+                });
+             },
+             
+            failure: (function(){
+               alert("Failure!!");
+              })
+         });
+         
+         $.ajax({
+            type:"POST",
+            url:"/docVehicle/public/vehicle/getmodelversion", // call to Action method in COntroller
+            data:myDataMV,
+            dataType: "JSON",          
+            success: function(data){  
+              $('#vehicleModelVersion').empty();  
+              $('#vehicleModelVersion').append($('<option></option>').attr('value','0').text('Select Model Version'));
+              $.each(data, function(k, v){
+                var element = $('<option></option>');
+                    element.val( v.vehicleModelVersionId).html(v.vehicleModelVersionName);
+                       $('#vehicleModelVersion').append(element);   
+                       $('#vehicleModelVersion').val(getValueMV);
+                });
+            },
+           failure: (function(){
+               alert("Failure!!");
+              })
+         });
+         
+         
+   });
+    
+     
+    $("#vehicleModel").change(function (){
+        var getValue=$(this).val(); 
+        $('#vehicleModelIdTemp').val(getValue);
+    });
+    
+     $("#vehicleModelVersion").change(function (){
+        var getValueMV=$(this).val(); 
+        $('#vehicleModelVersionIdTemp').val(getValueMV);
+    });
+      
+      $("#vehicleBrand").change(function (){
+        $('#vehicleModelIdTemp').val('');        
+        var getValue=$(this).val();
+        var myData = {textData:getValue};        
+        $.ajax({
+            type:"POST",
+            url:"/docVehicle/public/vehicle/getmodel", // call to Action method in COntroller
+            data:myData,
+            dataType: "JSON",          
+            success: function(data){  
+              $('#vehicleModel').empty();  
+              $('#vehicleModel').append($('<option></option>').attr('value','0').text('Select Model'));
+              $.each(data, function(k, v){
+                var element = $('<option></option>');
+                    element.val( v.vehicleModelId).html(v.vehicleModelName);
+                       $('#vehicleModel').append(element);    
+                });
+            },
+           failure: (function(){
+               alert("Failure!!");
+              })
+         });
+   });
+   
+      $("#vehicleModel").change(function (){
+        $('#vehicleModelVersionIdTemp').val('');        
+        var getValue=$(this).val();
+        var myData = {textData:getValue};        
+        $.ajax({
+            type:"POST",
+            url:"/docVehicle/public/vehicle/getmodelversion", // call to Action method in COntroller
+            data:myData,
+            dataType: "JSON",          
+            success: function(data){  
+              $('#vehicleModelVersion').empty();  
+              $('#vehicleModelVersion').append($('<option></option>').attr('value','0').text('Select Model Version'));
+              $.each(data, function(k, v){
+                var element = $('<option></option>');
+                    element.val( v.vehicleModelVersionId).html(v.vehicleModelVersionName);
+                       $('#vehicleModelVersion').append(element);    
+                });
+            },
+           failure: (function(){
+               alert("Failure!!");
+              })
+         });
+   }); 
+   
+ </script>
+ 
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+ <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+ <script type="text/javascript">
+        $(function() {
+            $("#vehicleManufactureYear").datepicker({
+                    dateFormat: 'yy-m',
+                  
+            });
+           
+        });
+        
+        
+   </script></div>

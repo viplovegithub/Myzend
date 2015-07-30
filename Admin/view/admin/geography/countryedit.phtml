@@ -1,0 +1,68 @@
+<?php
+$this->headTitle('ADD COUNTRY');
+?>
+<div class="contentPanel">
+    <div class="row ">
+    <div class="col-sm-6 pull-left">
+                <header>
+                <h3 class="orange">ADD COUNTRY</h3>
+                </header>
+   </div>
+   <div class="col-sm-6 pull-right"> 
+   </div>
+                
+    </div>
+<div class="addUserTitleStrip">
+    <h4>COUNTRY INFORMATION</h4>
+     
+    </div>
+ <?php
+                $form = $this->form;
+                $form->prepare();
+                echo $this->form()->openTag($form);
+ ?>
+    <div class="commonFormDtlsDiv">
+
+<?php echo $this->formRow($form->get('cntryName'));?>
+        </div>
+    
+    <div class="commonFormDtlsDiv">
+
+<?php echo $this->formRow($form->get('cntrydescription'));?>
+        </div>
+    
+     <div class="commonFormDtlsDiv">
+
+<?php echo $this->formRow($form->get('cntryspecialInstructions'));?>
+        </div>
+    
+     <div class="commonFormDtlsDiv">
+
+<?php echo $this->formRow($form->get('cntrybestSeasonToVisit'));?>
+        </div>
+    
+   <div class="commonFormDtlsDiv">
+
+<?php echo $this->formRow($form->get('latitude'));?>
+        </div> 
+    
+ <div class="commonFormDtlsDiv">
+
+<?php echo $this->formRow($form->get('longitude'));?>
+        </div>    
+    
+    <div class="commonFormDtlsDiv">
+
+<?php echo $this->formRow($form->get('contryphoto'));?>
+        </div>
+    
+     <div class="btnCommonDiv">
+<?php echo $this->formInput($form->get('save'));?>
+</div>
+        
+<?php
+echo $this->form()->closeTag($form);
+?>
+ 
+  </div>
+

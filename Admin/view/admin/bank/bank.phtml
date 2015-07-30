@@ -1,0 +1,95 @@
+<?php $fieldcounts = count($this->fildnames) + 1; ?>
+<div class="contentPanel">
+
+    <div class="zf-table-wrap  form-inline">
+
+        <div class="row ">
+            <div class="col-sm-6 pull-left">
+                <header>
+                    <h3 class="orange">MANAGE BANK</h3>
+                </header>
+            </div>
+            <div class="col-sm-6 pull-right"> 
+                <div class="addUserBtn"><a href="<?php echo $this->url('admin/default', array('controller' => 'bank', 'action' => 'bankadd')); ?>">ADD BANK</a></div>
+            </div>
+
+        </div>
+        <div class="addUserTitleStrip">
+            <h4>BANK LIST</h4>
+        </div>
+
+    </div>
+    <div id="tableContainer">
+        <table id="bank" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+                <tr class="dataTable-title">
+                    <th>Sr. No</th>
+                    <?php
+                    for ($j = 0; count($fildnames) > $j; $j++) {
+                        $fieldnameval = $fildnames[$j];
+                        echo "<th>$fieldnameval</th>";
+                    }
+                    ?>
+    <!--                <th>Action</th>-->
+                    <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;Action
+                    </th>
+                </tr>
+            </thead>
+
+
+
+        </table>
+    </div>
+
+</div>            
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var td = $('#bank').DataTable({
+            stateSave: true,
+            responsive: true,
+            dom: 'C<"clear">lfrtip',
+            colVis: {
+                activate: "mouseover",
+                exclude: [0, 1,<?php echo $fieldcounts; ?>]
+            },
+            "ajax": {
+                "url": "/admin/bank/ajaxbank",
+                "dataSrc": "data"
+            },
+            "columnDefs": [{
+                    "targets": -1,
+                    "data": null,
+                    "render": function (data, type, full, meta) {
+                        var dataval = "/admin/bank/bankedit/" + data[1];
+                        return '<span class="userEditOptionsDiv"><span class="userEditOptionsPopup"><span class="userEditOptionTxt"><a href="' + dataval + '">Modify Address Type</a></span><span class="userEditOptionTxt status"  id="%s"><a  href="javascript:void(0)" >Change Status</a></span></span></span>';
+                    },
+                    // "defaultContent": "<span class='userEditOptionsDiv'><span class='userEditOptionsPopup'><span class='userEditOptionTxt'><a href='/admin/user/subuseredit/%s'>Modify Sub User</a></span><span class='userEditOptionTxt status'  id='%s'><a  href='javascript:void(0)' >Change Status</a></span></span></span>" ,
+                    "orderable": false
+                }, {
+                    "targets": [1],
+                    "visible": false
+                }, {
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 0
+                }],
+            "order": [[1, 'asc']]
+
+        });
+        td.on('order.dt search.dt', function () {
+            td.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
+            });
+        }).draw();
+        td.on('order.dt search.dt', function () {
+            $(".userEditOptionsDiv").hover(function () {
+                $(this).children('.userEditOptionsPopup').show();
+            }, function () {
+                $(this).children('.userEditOptionsPopup').hide();
+            });
+        }).draw();
+
+    });
+</script>        

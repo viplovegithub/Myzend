@@ -1,0 +1,121 @@
+<?php
+$title = 'Edit Toll';
+$this->headTitle($title);
+?>
+<div class="contentPanel">
+ <div class="row ">
+    <div class="col-sm-6 pull-left">
+                <header>
+                <h3 class="orange">EDIT TOLL</h3>
+                </header>
+   </div>
+   <div class="col-sm-6 pull-right"> 
+   </div>
+                
+    </div>
+<div class="addUserTitleStrip">
+    <h4>TOLL INFORMATION</h4>
+    </div>   
+
+<?php
+$form = $this->form;
+$form->prepare();
+echo $this->form()->openTag($form) ;
+?>
+
+
+<div class="commonFormDtlsDiv">
+    <?php echo $this->formText($form->get('tollName')); ?> 
+    <?php echo $this->formElementErrors($form->get('tollName')); ?>
+</div>
+    
+ 
+<div class="commonFormDtlsDiv">
+    <div class="commonDropDnInput">
+    <?php echo $this->formSelect($form->get('cityId')); ?> 
+        </div>
+</div>
+       
+         <div class="commonFormDtlsDiv">
+    <?php echo $this->formElementErrors($form->get('cityId')); ?>
+</div>
+    
+ 
+
+<div class="commonFormDtlsDiv">
+    <div class="commonDropDnInput">
+    <?php echo $this->formSelect($form->get('locationId')); ?> 
+        </div>
+</div>
+       
+         <div class="commonFormDtlsDiv">
+    <?php echo $this->formElementErrors($form->get('locationId')); ?>
+</div>
+
+<div>
+    <?php echo $this->formInput($form->get('submit')) ; ?>
+</div>
+  <input type="hidden" id="templocid" name="templocid" value="<?php echo $form->get('locationId')->getValue(); ?>">
+<?php echo $this->form()->closeTag($form) ;?>
+</div>
+<script>
+   $("#cityId").change(function () {       
+    var getValue=$("#cityId").val();
+   var myData = {cid:getValue};
+    $.ajax({
+           type:"POST",
+           url:"/admin/geography/getlocation",
+            data:myData,
+            dataType: "JSON",
+          success: function(data){
+             var htmlStr;
+           
+              $('#location').empty();  
+              $('#location').append($('<option></option>').attr('value','').text('pls select Location'));
+              $.each(data, function(k, v){
+                $('#location').append($('<option></option>').attr('value',  v.locationId).text(v.locname));
+              });
+        },
+            failure: (
+               function()
+                        {
+                          alert("Failure!!");
+                       }
+              )
+
+         });
+  });
+   $(document).ready(function () {       
+   var getValue=$("#cityId").val();
+   var templocid=$("#templocid").val();
+   var myData = {cid:getValue};
+    $.ajax({
+           type:"POST",
+           url:"/admin/geography/getlocation",
+            data:myData,
+            dataType: "JSON",
+          success: function(data){
+             var htmlStr;
+           
+              $('#location').empty();  
+                $('#location').append($('<option></option>').attr('value','').text('pls select Location'));
+              $.each(data, function(k, v){
+                    if(v.locationId==templocid){
+                        $('#location').append($('<option></option>').attr({'value': v.locationId, "selected": "selected"}).text(v.locname));
+                       
+                  }else{
+                          $('#location').append($('<option></option>').attr('value',  v.locationId).text(v.locname));
+                  }
+              
+              });
+        },
+            failure: (
+               function()
+                        {
+                          alert("Failure!!");
+                       }
+              )
+
+         });
+  });
+</script>
